@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Role;
+use App\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,7 @@ class UserController extends Controller
             'password' => 'required|string|min:6',
             'role_id' => 'required|integer|max:5'
         ];
-        $validator = Validator::make($request->json()->all(), $req);
+        $validator = Validator::make($request->all(), $req);
         if($validator->fails()){ return response()->json($validator->errors()->toJson(), 400);  }
         $role =  Role::find($request->json()->get('role_id'));
         if($role){
@@ -32,6 +33,15 @@ class UserController extends Controller
                 'role_id' => $request->json()->get('role_id')
             ]);
             $user->roles()->attach($request->json()->get('role_id'));
+
+            $profile = new Profile();
+            $profile->name = $request->name;
+            $profile->adress = $request->address;
+            $profile->phone = $request->phone;
+            $profile->photo = $request->photo;
+            $profile->desc = $request->desc;
+           // $profile->save($user);
+            $user->profiles()->save($profile);
             $token = JWTAuth::fromUser($user);
             return response()->json(compact('user', 'token'), 201);
         }
