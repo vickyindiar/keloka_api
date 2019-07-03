@@ -13,7 +13,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $table = 'users';
     protected $fillable = [
-        'name', 'email', 'password' , 'role_id', 'address', 'phone', 'photo'
+        'email', 'password' , 'role_id',
     ];
 
     protected $hidden = [
@@ -37,6 +37,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function roles(){
         return $this->belongsToMany(Role::class);
+    }
+
+    public function profiles(){
+        return $this->hasOne(Profile::class);
     }
 
 }
