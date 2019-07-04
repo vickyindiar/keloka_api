@@ -1,18 +1,41 @@
 <?php
 
 return [
-    "_HTTP_OK" => 200, //The request has succeeded. The information returned with the response is dependent on the method used in the request,
-    "_HTTP_CREATED" => 201, //The request has been fulfilled, resulting in the creation of a new resource
-    "_HTTP_ACCEPT" => 202, //The request has been accepted for processing, but the processing has not been completed.
+    "ASK_APPEND" => "Are you sure to append this record ?",
+    "ASK_MODIFY" => "Are you sure to modify this record ?",
+    "ASK_DELETE" => "Are you sure to delete this record ?",
+    "ASK_UPDATE" => "Are you sure to update this record ?",
+    "ASK_ABANDON" => "Are you sure to abandon any changes to this record ?",
+    "ASK_CHANGE" => "Are you sure to change this value ?",
+    "ASK_REPLACE" => "Are you sure to replace the existing value with the default value ?",
+    "ASK_SAVELAST" => "You leave a work being edited. \n Do you want to save your last work now ?",
+    "ASK_SAVEWORK" => "Do you want to save your work ?",
+    "ASK_RETURN" => "Return to Main Menu ?",
 
-    "_HTTP_BAD_REQUEST" => 400, //The request could not be understood by the server due to malformed syntax.
-    "_HTTP_UNAUTHORIZED" => 401,
-    "_HTTP_FORBIDDEN" => 403, //The request was valid, but the server is refusing action.
-    "_HTTP_NOT_FOUND" => 404, //he requested resource could not be found but may be available in the future.
-    "_HTTP_REQUEST_TIMEOUT" => 408, // The client did not produce a request within the time that the server was prepared to wait.
+    "ERR_UNDOLAST"  => "You had close a work being edited. \n Transaction has rollback !",
+    "ERR_VERIFY"  => "Please verify your input !",
+    "ERR_INSERT"  => "You cannot insert record has been locked by system !",
+    "ERR_MODIFY"  => "You cannot modify record has been locked by system !",
+    "ERR_UPDATE"  => "You cannot update record has been locked by system !",
+    "ERR_DELETE"  => "You cannot delete record has been locked by system !",
+    "ERR_VALIDID"  => "This code has already exist",
+    "ERR_VALIDREF"  => "Your Reference Number has been used by another user !",
+    "ERR_CONFLICT"  => "ID Number has been used by another user",
+    "ERR_TRANS"  => "Transaction is failed !",
+    "ERR_LOCKED "  => "It has been locked by another user",
+    "ERR_RECORD"  => "You cannot modify the same record !",
+    "FAIL_UPDATE"  => "Update is failed. \n Transaction has rollback !",
+    "FAIL_DELETE"  => "Delete is failed. \n Transaction has rollback !",
+    "MSG_SUCCESS"  => "Success !",
+    "MSG_FAILED"  => "Failed !",
+    "MSG_FOUND"  => "Found !",
+    "MSG_ERRUPD "  => "Update error !",
+    "MSG_NODETECT"  => "No record detected !",
 
-    "_HTTP_INTERNAL_SERVER_ERROR" => 500, //The server encountered an unexpected condition which prevented it from fulfilling the request.
-
-
-
+    "ERR_CREDENT" => "Invalid credentials",
+    "ERR_CREATE_TOKEN" => "Could not create token",
+    "ERR_EXPIRED_TOKEN" => "Sorry, your token expired",
+    "ERR_INVALID_TOKEN" => "Token Invalid",
+    "ERR_ABSENT_TOKEN" => "Sorry, token not found",
+    "ERR_USER" => "User not found",
 ];

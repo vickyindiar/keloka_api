@@ -8,33 +8,13 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $categories = Category::all();
         return response()->json($categories);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rule = [
@@ -42,7 +22,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255'
         ];
 
-        $validator = Validator::make($request->all(), $rule);
+        $validator = Validator::make($request->json()->all(), $rule);
 
         if(! $validator->fails()){
             $category = Category::create([
@@ -50,56 +30,26 @@ class CategoryController extends Controller
                 'name' => $request->json()->get('name'),
                 'desc' => $request->json()->get('desc')
             ]);
-            return response()->json([
-                Category::all()
-            ], 201);
+            return response()->json(['status'=> true, 'msg'=> config('msg.MSG_SUCCESS'), 'data' => $category], 201);
         }
-
-
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $category = Category::find($id);
+        return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $category], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+        $category->update($request->json()->all());
+        return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $category], 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        Category::destroy([$id]);
+        return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS')], 200);
     }
 }

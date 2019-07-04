@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use JWTAuth;
 use App\User;
 use App\Role;
 use App\Profile;
-use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTExecption;
 use Illuminate\Support\Facades\DB;
-use League\Flysystem\Config;
-use Dotenv\Regex\Result;
 
 class UserController extends Controller
 {
     public function register(Request $request)
     {
         $result = [];
-        $status = Config::get('msg._HTTP_OK');
+        $status = config('httpcode.HTTP_OK');
         $req = [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -39,65 +36,63 @@ class UserController extends Controller
                     'password' => Hash::make($request->json()->get('password')),
                     'role_id' => $request->json()->get('role_id')
                 ]);
-                $user->roles()->attach($request->json()->get('role_id'));
 
-                $profile = new Profile();
+                $profile = new Profile;
                 $profile->name = $request->name;
-                $profile->adress = $request->address;
+                $profile->address = $request->address;
                 $profile->phone = $request->phone;
                 $profile->photo = $request->photo;
                 $profile->desc = $request->desc;
-               // $profile->save($user);
+
+                $user->roles()->attach($request->json()->get('role_id'));
                 $user->profiles()->save($profile);
 
                 $token = JWTAuth::fromUser($user);
-
-                $req_code = Config::get('msg._HTTP_CREATED');
-                $stats = true;
-                $message = Config::get('msg._insert_success');
+                $req_code = config('httpcode.HTTP_CREATED');
+                $status = true;
+                $message = config('msg.MSG_SUCCESS');
                 $data = compact('user', 'token');
-
-                $result = compact('stats', 'message', 'data');
-
+                $result = compact('status', 'message', 'data');
                 DB::commit();
             } catch (\Exception $e) {
-               DB::rollBack();
-               $status = Config::get('msg._HTTP_BAD_REQUEST');
-               $result['stats'] = false;
+               $req_code = config('httpcode.HTTP_BAD_REQUEST');
+               $status['status'] = false;
                $result["message"] = $e->getMessage();
+               DB::rollBack();
             }
         }
         else{
-            $status = Config::get('msg._HTTP_NOT_FOUND');
-            $result['stats'] = false;
-            $result["message"] = Config::get('msg._role_not_found');
+            $req_code = config('httpcode.HTTP_NOT_FOUND');
+            $result['status'] = false;
+            $result["message"] = config('msg.MSG_NODETECT');
         }
 
-        return response()->json($result, $status);
+        return response()->json($result, $req_code);
     }
 
 
     public function login(Request $request)
     {
         $credentials = $request->json()->all();
+        $status = true;
         try {
             $token = JWTAuth::attempt($credentials);
             if(!$token){
-                return response()->json(['error' => 'invalid_credentials'], 400);
+                return response()->json(['status' => false, 'msg' => config('msg.ERR_CREDENT')], config('httpcode.HTTP_BAD_REQUEST'));
             }
         } catch (JWTExecption $e) {
-             return response()->json(['error' => 'could_not_create_token'], 500);
+             return response()->json(['status' => false, 'msg' => config('msg.ERR_CREATE_TOKEN')], config('httpcode.HTTP_SERVER_ERROR'));
         }
-        return response()->json(compact('token'));
+        return response()->json(compact('status', 'token'));
     }
 
     public function logout(Request $request){
         $token = $request->header('Authorization');
         try {
             JWTAuth::invalidate($token);
-            return response()->json([ 'success' => true ], 200);
+            return response()->json([ 'status' => true, 'msg' => config('msg.MSG_SUCCESS') ], 200);
         } catch (JWTExecption $th) {
-            return response()->json(['error' => 'logout failed'], 500);
+            return response()->json(['status' => false, 'msg' => config('msg.MSG_FAILED')], 500);
         }
     }
 
@@ -105,16 +100,16 @@ class UserController extends Controller
     {
         try {
             if(!$user = JWTAuth::parseToken()->authenticate()){
-                return response()->json(['user_not_found'], 400);
+                return response()->json(['status' => false, 'msg'=> config('msg.ERR_USER')], 400);
             }
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredExceptions $e) {
-            return response()->json(['token_expired'], $e->getStatusCode());
+            return response()->json(['status' => false, 'msg'=> config('msg.ERR_EXPIRED_TOKEN')], $e->getStatusCode());
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidExceptions $e) {
-            return response()->json(['token_invalid'], $e->getStatusCode());
+            return response()->json(['status' => false, 'msg'=> config('msg.ERR_INVALID_TOKEN')], $e->getStatusCode());
         } catch (JWTExcaption $e) {
-            return response()->json(['token_absent'], $e->getStatusCode());
+            return response()->json(['status' => false, 'msg'=> config('msg.ERR_ABSENT_TOKEN')], $e->getStatusCode());
         }
-        return response()->json(compact('user'));
+        return response()->json(['status' => true, compact('user')]);
     }
 
 }
