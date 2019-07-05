@@ -109,7 +109,7 @@ class UserController extends Controller
         } catch (JWTExcaption $e) {
             return response()->json(['status' => false, 'msg'=> config('msg.ERR_ABSENT_TOKEN')], $e->getStatusCode());
         }
-        return response()->json(['status' => true, compact('user')]);
+        return response()->json(['status' => true, "data" => $user]);
     }
 
 }

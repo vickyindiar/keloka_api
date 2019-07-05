@@ -20,5 +20,7 @@ Route::post('login', 'UserController@login');
 Route::middleware(['jwt.verify'])->group(function() {
         Route::post('logout', 'UserController@logout');
         Route::get('user','UserController@getuser');
-
+        Route::apiResource('category', 'CategoryController');
 });
+
+
