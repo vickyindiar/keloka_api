@@ -15,10 +15,10 @@ use Illuminate\Http\Request;
 
 
 
-Route::post('register', 'UserController@register');
-Route::post('login', 'UserController@login');
+Route::post('register', 'AuthController@register');
+Route::post('login', 'AuthController@login');
 Route::middleware(['jwt.verify'])->group(function() {
-        Route::post('logout', 'UserController@logout');
+        Route::post('logout', 'AuthController@logout');
         Route::get('user','UserController@getuser');
         Route::apiResource('category', 'CategoryController');
 });

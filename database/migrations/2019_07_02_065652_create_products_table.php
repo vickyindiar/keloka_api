@@ -27,7 +27,7 @@ class CreateProductsTable extends Migration
 
             $table->bigInteger('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers');
-
+            $table->string('brand')->nullable();
             $table->string('color')->nullable();
             $table->string('image')->nullable();
             $table->string('desc')->nullable();
