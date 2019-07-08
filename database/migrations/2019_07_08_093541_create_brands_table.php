@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQtytypeTable extends Migration
+class CreateBrandsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateQtytypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('qtytypes', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code');
             $table->string('name');
             $table->string('desc')->nullable();
             $table->timestamps();
@@ -29,6 +28,6 @@ class CreateQtytypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('qtytypes');
+        Schema::dropIfExists('brands');
     }
 }

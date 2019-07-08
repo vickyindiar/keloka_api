@@ -12,4 +12,16 @@ class Order extends Model
         'status', 'method', 'dp', 'stotal', 'due_date', 'shipping', 'others',
         'gdisc', 'gtotal'
     ];
+
+    public function customers(){
+        $this->belongsTo(Customer::class);
+    }
+
+    public function invoices(){
+        $this->belongsTo(Invoice::class);
+    }
+
+    public function users(){
+        $this->belongsTo(User::class);
+    }
 }

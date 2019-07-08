@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Schema;
@@ -22,12 +23,16 @@ class CreateProductsTable extends Migration
             $table->foreign('qtytype_id')->references('id')->on('qtytypes');
 
             $table->integer('stock');
+
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
 
             $table->bigInteger('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers');
-            $table->string('brand')->nullable();
+
+            $table->bigInteger('brand_id')->unsigned();
+            $table->foreign('brand_id')->references('id')->on('brands');
+
             $table->string('color')->nullable();
             $table->string('image')->nullable();
             $table->string('desc')->nullable();
