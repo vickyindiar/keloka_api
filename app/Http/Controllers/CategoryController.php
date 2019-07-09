@@ -13,24 +13,19 @@ class CategoryController extends Controller
 
     public function index(): CategoryCollection
     {
-        // $categories = Category::all();
+       // $categories = Category::paginate(2);
         // return response()->json($categories);
         return new CategoryCollection(Category::paginate(2));
     }
 
-    // public function index()
-    // {
-    //     $categories = Category::paginate(2);
-    //     return response()->json($categories);
-    // }
-
-
-
-    public function show(Category $category): CategoryResource
-    {
-        // $category = Category::find($id);
-        // return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $category], 200);
-        return new CategoryResource($category);
+    public function show($id){
+        $category = Category::find($id);
+        if($category){
+            return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $category], 200);
+        }
+        else{
+            return response()->json(['status'=> false, 'msg' => config('msg.MSG_NODETECT'), 'data' => $category], 404);
+        }
     }
 
 
@@ -52,13 +47,24 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = Category::find($id);
-        $category->update($request->json()->all());
-        return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $category], 201);
+        if($category == null){
+            return response()->json(['status'=> false, 'msg' => config('msg.MSG_NODETECT'), 'data' => $category], 404);
+        }
+        else{
+            $category->update($request->json()->all());
+            return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $category], 201);
+        }
     }
 
     public function destroy($id)
     {
-        Category::destroy([$id]);
-        return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS')], 200);
+        $category = Category::find($id);
+        if($category == null){
+            return response()->json(['status'=> false, 'msg' => config('msg.MSG_NODETECT'), 'data' => $category], 404);
+        }
+        else{
+            Category::destroy($id);
+            return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS')], 200);
+        }
     }
 }
