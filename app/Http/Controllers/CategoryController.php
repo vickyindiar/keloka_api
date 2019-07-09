@@ -48,7 +48,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if($category == null){
-            return response()->json(['status'=> false, 'msg' => config('msg.MSG_NODETECT'), 'data' => $category], 404);
+            return response()->json(['status'=> false, 'msg' => config('msg.MSG_NODETECT')], 404);
         }
         else{
             $category->update($request->json()->all());
@@ -60,7 +60,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if($category == null){
-            return response()->json(['status'=> false, 'msg' => config('msg.MSG_NODETECT'), 'data' => $category], 404);
+            return response()->json(['status'=> false, 'msg' => config('msg.MSG_NODETECT')], 404);
         }
         else{
             Category::destroy($id);

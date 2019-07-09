@@ -2,13 +2,12 @@
 
 namespace App\Http\Resources;
 
-use App\Category;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CategoryResource extends JsonResource
+class CustomerCollection extends ResourceCollection
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
