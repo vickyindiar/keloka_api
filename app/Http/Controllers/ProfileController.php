@@ -21,7 +21,7 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         $profile = Profile::find($id);
-        $profile->update($request->json()->all());
+        $profile->update($request->all());
         return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $profile], 201);
     }
 

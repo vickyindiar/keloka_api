@@ -36,10 +36,10 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255'
         ];
 
-        $validator = Validator::make($request->json()->all(), $rule);
+        $validator = Validator::make($request->all(), $rule);
 
         if(! $validator->fails()){
-            $category = Category::create($request->json()->all());
+            $category = Category::create($request->all());
             return response()->json(['status'=> true, 'msg'=> config('msg.MSG_SUCCESS'), 'data' => $category], 201);
         }
     }
@@ -51,7 +51,7 @@ class CategoryController extends Controller
             return response()->json(['status'=> false, 'msg' => config('msg.MSG_NODETECT')], 404);
         }
         else{
-            $category->update($request->json()->all());
+            $category->update($request->all());
             return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $category], 201);
         }
     }

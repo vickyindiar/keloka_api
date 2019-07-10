@@ -35,18 +35,22 @@ class CustomerController extends Controller
             return response()->json($validate->errors()->toJson(), 400);
         }
 
+                         //  use ImageHandlerTrait;
         $resultUploaded = $this->uploadOne($request);
+        if(! $resultUploaded){
+            return response()->json(['msg' => 'failed upload image'], 400);
+        }
 
         $customer = Customer::create([
-            'name'      => $request->json()->get('name'),
-            'address'   => $request->json()->get('address'),
-            'city'      => $request->json()->get('city'),
-            'province'  => $request->json()->get('province'),
-            'phone'     => $request->json()->get('phone'),
-            'phone2'    => $request->json()->get('phone'),
-            'store'     => $request->json()->get('store'),
+            'name'      => $request->input('name'),
+            'address'   => $request->input('address'),
+            'city'      => $request->input('city'),
+            'province'  => $request->input('province'),
+            'phone'     => $request->input('phone'),
+            'phone2'    => $request->input('phone2'),
+            'store'     => $request->input('store'),
             'photo'     => $resultUploaded,
-            'desc'      => $request->json()->get('desc')
+            'desc'      => $request->input('desc')
         ]);
         return response()->json(['data' => $customer], 201);
     }
@@ -66,7 +70,9 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id);
         if($customer){
-            $customer->update($request->json()->all());
+            $resultUploaded = $this->uploadOne($request, $customer);
+            $request->photo = $resultUploaded;
+            $customer->update($request->all());
             return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $customer], 201);
         }
         else{

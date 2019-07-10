@@ -26,15 +26,15 @@ class AuthController extends Controller
         ];
         $validator = Validator::make($request->all(), $req);
         if($validator->fails()){ return response()->json($validator->errors()->toJson(), 400);  }
-        $role =  Role::find($request->json()->get('role_id'));
+        $role =  Role::find($request->input('role_id'));
         if($role){
             DB::beginTransaction();
             try {
                 $user = User::create([
-                    'name' => $request->json()->get('name'),
-                    'email' => $request->json()->get('email'),
-                    'password' => Hash::make($request->json()->get('password')),
-                    'role_id' => $request->json()->get('role_id')
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => Hash::make($request->input('password')),
+                    'role_id' => $request->input('role_id')
                 ]);
 
                 $profile = new Profile;
@@ -44,7 +44,7 @@ class AuthController extends Controller
                 $profile->photo = $request->photo;
                 $profile->desc = $request->desc;
 
-                $user->roles()->attach($request->json()->get('role_id'));
+                $user->roles()->attach($request->input('role_id'));
                 $user->profiles()->save($profile);
 
                 $token = JWTAuth::fromUser($user);
@@ -73,7 +73,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->json()->all();
+        $credentials = $request->all();
         $status = true;
         try {
             $token = JWTAuth::attempt($credentials);
