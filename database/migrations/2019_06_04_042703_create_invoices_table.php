@@ -18,6 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->string('invoice_no');
             $table->date('invoice_date');
             $table->text('note')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

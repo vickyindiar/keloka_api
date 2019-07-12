@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Customer;
-use App\Http\Resources\CustomerCollection;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 use App\Http\Traits\ImageHandlerTrait;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\CustomerCollection;
+
 
 class CustomerController extends Controller
 {
@@ -28,7 +29,7 @@ class CustomerController extends Controller
             'phone'     => 'nullable|string|max:12',
             'phone2'    => 'nullable|string|max:12',
             'store'     => 'nullable|string|max:50',
-            //'photo'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'photo'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'desc'      => 'nullable|string'
         ]);
         if($validate->fails()){
@@ -37,10 +38,6 @@ class CustomerController extends Controller
 
                          //  use ImageHandlerTrait;
         $resultUploaded = $this->uploadOne($request);
-        if(! $resultUploaded){
-            return response()->json(['msg' => 'failed upload image'], 400);
-        }
-
         $customer = Customer::create([
             'name'      => $request->input('name'),
             'address'   => $request->input('address'),
@@ -71,8 +68,9 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         if($customer){
             $resultUploaded = $this->uploadOne($request, $customer);
-            $request->photo = $resultUploaded;
-            $customer->update($request->all());
+            $requestData = $request->all();
+            $requestData['photo'] = $resultUploaded;
+            $customer->update($requestData);
             return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS'), 'data' => $customer], 201);
         }
         else{

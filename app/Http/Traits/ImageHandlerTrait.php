@@ -1,11 +1,11 @@
 <?php
 namespace App\Http\Traits;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Illuminate\Http\Request;
+
 use Image;
+use Illuminate\Http\Request;
 use PHPUnit\Framework\Exception;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\File;
+
 
 trait ImageHandlerTrait {
 
@@ -14,7 +14,7 @@ trait ImageHandlerTrait {
      try {
             if($file) {
                                 // using image.intervention.io
-                $newImage = Image::make($file)->resize(400, 400);
+                $newImage    = Image::make($file)->resize(400, 400);
                 $name        = str_slug($request->input('name')).'_'.time();
                 $path        = '/upload/images/';
                 $fullpath    = $path.$name.'.'.$file->getClientOriginalExtension();
@@ -33,7 +33,8 @@ trait ImageHandlerTrait {
                 return null;
             }
         } catch (Exception $e) {
-           return false;
+           return response()->json($e->getMessage(), 400);
+           //  return response()->json(['msg' => 'failed upload image'], 400);
         }
     }
 
