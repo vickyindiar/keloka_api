@@ -80,8 +80,8 @@ class CustomerController extends Controller
 
     public function destroy($id)
     {
-        $category = Customer::find($id);
-        if($category){
+        $customer = Customer::find($id);
+        if($customer){
             Customer::destroy($id);
             return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS')], 200);
         }

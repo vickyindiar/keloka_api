@@ -20,12 +20,7 @@ trait ImageHandlerTrait {
                 $fullpath    = $path.$name.'.'.$file->getClientOriginalExtension();
                 //$uploaded    = $resizedFile->storeAs($folder, $name.'.'.$file->getClientOriginalExtension(), 'public');
 
-                if($row) { //replace image
-                    $oldImage = array_key_exists('image', $row->attributesToArray()) ? $row->image : ( array_key_exists('photo', $row->attributesToArray()) ?  $row->photo  : null );
-                    if(Storage::disk('public')->exists($oldImage)){
-                            Storage::disk('public')->delete($oldImage);
-                    }
-                }
+                deleteOne($row);
                 $newImage->save(public_path() . $fullpath);
                 return $fullpath;
             }
@@ -38,6 +33,14 @@ trait ImageHandlerTrait {
         }
     }
 
+    public function deleteOne($row): void{
+        if($row) { //replace image
+            $oldImage = array_key_exists('image', $row->attributesToArray()) ? $row->image : ( array_key_exists('photo', $row->attributesToArray()) ?  $row->photo  : null );
+            if(Storage::disk('public')->exists($oldImage)){
+                    Storage::disk('public')->delete($oldImage);
+            }
+        }
+    }
 
 
 

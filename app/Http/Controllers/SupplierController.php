@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Traits\ImageHandlerTrait;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\SupplierCollection;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
@@ -79,8 +80,9 @@ class SupplierController extends Controller
 
     public function destroy($id)
     {
-        $category = Supplier::find($id);
-        if($category){
+        $supplier = Supplier::find($id);
+        if($supplier){
+            $this->deleteOne($supplier);
             Supplier::destroy($id);
             return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS')], 200);
         }
