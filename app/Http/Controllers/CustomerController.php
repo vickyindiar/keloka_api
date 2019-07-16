@@ -28,7 +28,7 @@ class CustomerController extends Controller
             'phone'     => 'nullable|string|max:12',
             'phone2'    => 'nullable|string|max:12',
             'store'     => 'nullable|string|max:50',
-            //'photo'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'photo'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'desc'      => 'nullable|string'
         ]);
         if($validate->fails()){
