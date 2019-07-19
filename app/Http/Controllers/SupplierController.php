@@ -13,7 +13,7 @@ class SupplierController extends Controller
 {
     use ImageHandlerTrait;
 
-    public function index(): QtytypeCollection
+    public function index(): SupplierCollection
     {
         $suppliers = Supplier::paginate();
         return new SupplierCollection($suppliers);
