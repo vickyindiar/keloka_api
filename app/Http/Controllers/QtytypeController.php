@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class QtytypeController extends Controller
 {
 
-    public function index()
+    public function index(): QtytypeCollection
     {
         $qtyType = Qtytype::peginate();
         return new QtytypeCollection($qtyType);

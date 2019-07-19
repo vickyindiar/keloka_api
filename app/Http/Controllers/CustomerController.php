@@ -13,7 +13,7 @@ class CustomerController extends Controller
 {
     use ImageHandlerTrait;
 
-    public function index()
+    public function index() : CustomerCollection
     {
         $customers = Customer::paginate();
         return new CustomerCollection($customers);
