@@ -29,6 +29,8 @@ Route::middleware(['jwt.verify'])->group(function() {
         Route::apiResource('order', 'OrderController');
         Route::apiResource('order-detail', 'OrderDetailController');
         Route::apiResource('invoice', 'InvoiceController');
+        Route::apiResource('reject', 'RejectController');
+        Route::apiResource('excahnge', 'ExchangeController');
 
 });
 

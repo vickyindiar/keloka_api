@@ -8,4 +8,8 @@ class Reject extends Model
 {
     protected $table    = 'rejects';
     protected $fillable = ['product_id', 'qty', 'qtytype_id'];
+
+    public function products(){
+        return $this->belongsTo(Product::class);
+    }
 }
