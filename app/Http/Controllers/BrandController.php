@@ -10,7 +10,7 @@ class BrandController extends Controller
 {
     public function index(): BrandCollection
     {
-        return new BrandCollection(Brand::paginate(2));
+        return new BrandCollection(Brand::paginate());
     }
 
     public function show($id){
@@ -23,16 +23,10 @@ class BrandController extends Controller
         }
     }
 
-
     public function store(Request $request)
     {
-        $rule = [
-            'code' => 'required|string|max:5',
-            'name' => 'required|string|max:255'
-        ];
-
+        $rule = ['code' => 'required|string|max:5', 'name' => 'required|string|max:255'];
         $validator = Validator::make($request->all(), $rule);
-
         if(! $validator->fails()){
             $brand = Brand::create($request->all());
             return response()->json(['status'=> true, 'msg'=> config('msg.MSG_SUCCESS'), 'data' => $brand], 201);

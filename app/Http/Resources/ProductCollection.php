@@ -14,6 +14,21 @@ class ProductCollection extends ResourceCollection
      */
     public function toArray($request)
     {
+       // return [
+            // 'id' => $this->id,
+            // 'name' => $this->name,
+            // 'sprice' => $this->sprice,
+            // 'bprice' => $this->bprice
+            // 'qtytype' => $this->qtytype->name,
+            // 'stock' => $this->stock,
+            // 'category' => $this->category->name,
+            // 'supplier' => $this->supplier->name,
+            // 'brand' => $this->brand->name,
+            // 'color' => $this->color,
+            // 'image' => $this->image,
+            // 'desc' => $this->desc
+       // ];
+
         return parent::toArray($request);
     }
 }

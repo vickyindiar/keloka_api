@@ -10,4 +10,8 @@ class Invoice extends Model
     use SoftDeletes;
     protected $table = 'invoices';
     protected $fillable = ['invoice_no', 'invoice_date', 'note'];
+
+    public function order(){
+        return $this->belongsTo(Order::class);
+    }
 }
