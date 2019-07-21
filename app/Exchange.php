@@ -8,4 +8,7 @@ class Exchange extends Model
 {
     protected $table = 'exchanges';
     protected $fillable = ['order_id', 'product_id', 'qty', 'qtytype_id', 'type', 'reason', 'desc'];
+
+
+
 }
