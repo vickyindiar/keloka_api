@@ -32,10 +32,17 @@ return [
     "MSG_ERRUPD "  => "Update error !",
     "MSG_NODETECT"  => "No record detected !",
 
-    "ERR_CREDENT" => "Invalid credentials",
-    "ERR_CREATE_TOKEN" => "Could not create token",
-    "ERR_EXPIRED_TOKEN" => "Sorry, your token expired",
-    "ERR_INVALID_TOKEN" => "Token Invalid",
-    "ERR_ABSENT_TOKEN" => "Sorry, token not found",
-    "ERR_USER" => "User not found",
+    //"ERR_CREDENT" => "Invalid credentials",
+    // "ERR_CREATE_TOKEN" => "Could not create token",
+    // "ERR_EXPIRED_TOKEN" => "Sorry, your token expired",
+    // "ERR_INVALID_TOKEN" => "Token Invalid",
+    // "ERR_ABSENT_TOKEN" => "Sorry, token not found",
+    // "ERR_USER" => "User not found",
+    "ERR_CREDENT" => "Email/Password yang dimasukan salah !",
+    "ERR_CREATE_TOKEN" => "Tidak dapat membuat token.",
+    "ERR_EXPIRED_TOKEN" => "Maaf, Sesi token telah berakhir, silahkan login kembali !",
+    "ERR_INVALID_TOKEN" => "Autentikasi token salah.",
+    "ERR_ABSENT_TOKEN" => "Maaf, Token tidak dapat ditemukan.",
+    "ERR_USER" => "User tidak dapat ditemukan.",
+
 ];
