@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
+
     public function register(Request $request)
     {
         $result = [];
@@ -77,13 +78,14 @@ class AuthController extends Controller
         $status = true;
         try {
             $token = JWTAuth::attempt($credentials);
+            $user = auth()->user()->toArray();
             if(!$token){
                 return response()->json(['status' => false, 'msg' => config('msg.ERR_CREDENT')], config('httpcode.HTTP_BAD_REQUEST'));
             }
         } catch (JWTExecption $e) {
              return response()->json(['status' => false, 'msg' => config('msg.ERR_CREATE_TOKEN')], config('httpcode.HTTP_SERVER_ERROR'));
         }
-        return response()->json(compact('status', 'token'));
+        return response()->json(compact('status', 'token', 'user'));
     }
 
     public function logout(Request $request){
