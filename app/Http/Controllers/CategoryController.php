@@ -12,9 +12,9 @@ class CategoryController extends Controller
 
     public function index(): CategoryCollection
     {
-       // $categories = Category::paginate(2);
-        // return response()->json($categories);
-        return new CategoryCollection(Category::paginate(2));
+       $categories = Category::paginate(2);
+       // return response()->json($categories);
+        return new CategoryCollection($categories);
     }
 
     public function show($id){

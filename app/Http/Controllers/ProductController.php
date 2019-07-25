@@ -11,10 +11,23 @@ class ProductController extends Controller
 {
     use ImageHandlerTrait;
 
-    public function index()
+    public function index(Request $request) : ProductCollection
     {
-        $products = Product::paginate();
-        return new ProductCollection($products);
+        //$products = Product::with('qtytype, category, supplier, brand')->get();
+        $products = Product::with([
+            'qtytype' => function($query){ $query->select(['id', 'name'])->get(); },
+            'category' => function($query){ $query->select(['id', 'name'])->get(); },
+            'supplier' => function($query){ $query->select(['id', 'name'])->get(); },
+            'brand:id,name']);
+
+        $products->when($request->has('where'), function($query) use ($request){
+            return $query->where($request->where["1"], $request->where["2"], $request->where["3"]);
+        });
+        $products->when($request->has('orderby'), function($query) use ($request){
+            return $query->orderBy($request->orderby);
+        });
+
+        return new ProductCollection($products->paginate());
     }
 
     public function store(Request $request)
@@ -23,10 +36,10 @@ class ProductController extends Controller
             'name'        => 'required|string|max:50',
             'sprice'      => 'required|numeric|min:3',
             'bprice'      => 'required|numeric|min:3',
-            'qtytype_id'  => 'required|numeric',
+            'qtytype_id'  => 'required|integer',
             'stock'       => 'required|numeric|min:1',
-            'category_id' => 'required|numeric',
-            'supplier_id' => 'required|numeric',
+            'category_id' => 'required|integer',
+            'supplier_id' => 'required|integer',
             'color'       => 'nullable|string',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'desc'        => 'nullable|string',

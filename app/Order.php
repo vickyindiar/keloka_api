@@ -16,14 +16,18 @@ class Order extends Model
     ];
 
     public function customers(){
-        $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function invoices(){
-        $this->belongsTo(Invoice::class);
+        return $this->hasOne(Invoice::class);
     }
 
     public function users(){
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function orderDetails(){
+        return $this->hasMany(OrderDetail::class);
     }
 }
