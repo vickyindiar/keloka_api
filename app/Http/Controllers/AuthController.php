@@ -77,16 +77,18 @@ class AuthController extends Controller
         $status = true;
         try {
             $token = JWTAuth::attempt($credentials);
-            $fetchUser = auth()->user();
-            $user = new User;
-            $user->name = $fetchUser->name;
-            $user->email = $fetchUser->email;
-            $user->role_id = $fetchUser->role_id;
-            $user->creted_at = $fetchUser->created_at;
-            $user->updated_at = $fetchUser->updated_at;
-            $data = compact('token', 'user');
             if(!$token){
                 return response()->json(['status' => false, 'msg' => config('msg.ERR_CREDENT')], config('httpcode.HTTP_BAD_REQUEST'));
+            }
+            else{
+                $fetchUser = auth()->user();
+                $user = new User;
+                $user->name = $fetchUser->name;
+                $user->email = $fetchUser->email;
+                $user->role_id = $fetchUser->role_id;
+                $user->creted_at = $fetchUser->created_at;
+                $user->updated_at = $fetchUser->updated_at;
+                $data = compact('token', 'user');
             }
         } catch (JWTExecption $e) {
              return response()->json(['status' => false, 'msg' => config('msg.ERR_CREATE_TOKEN')], config('httpcode.HTTP_SERVER_ERROR'));
