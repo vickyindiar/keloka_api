@@ -6,6 +6,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductCollection;
 use App\Http\Traits\ImageHandlerTrait;
+use Illuminate\Support\Facades\Schema;
 
 class ProductController extends Controller
 {
@@ -25,8 +26,12 @@ class ProductController extends Controller
         $products->when($request->has('orderby'), function($query) use ($request){
             return $query->orderBy($request->orderby);
         });
+        $products->get();
+        $colums = Schema::getColumnListing($products);
+        $x = 0;
 
-        return response()->json($products->get());
+
+        return response()->json(compose('products', 'columns'));
         //return new ProductCollection($products->paginate());
     }
 
