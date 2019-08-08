@@ -17,8 +17,8 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->double('sprice', 8, 2);
-            $table->double('bprice', 8, 2);
+            $table->double('sprice', 8);
+            $table->double('bprice', 8);
             $table->bigInteger('qtytype_id')->unsigned();
             $table->foreign('qtytype_id')->references('id')->on('qtytypes');
 
@@ -33,7 +33,9 @@ class CreateProductsTable extends Migration
             $table->bigInteger('brand_id')->unsigned();
             $table->foreign('brand_id')->references('id')->on('brands');
 
-            $table->string('color')->nullable();
+            $table->bigInteger('color_id')->unsigned();
+            $table->foreign('color_id')->references('id')->on('colors');
+
             $table->string('image')->nullable();
             $table->string('desc')->nullable();
             $table->softDeletes();

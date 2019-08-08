@@ -11,9 +11,8 @@ class ProductController extends Controller
 {
     use ImageHandlerTrait;
 
-    public function index(Request $request) : ProductCollection
+    public function index(Request $request) // : ProductCollection
     {
-        //$products = Product::with('qtytype, category, supplier, brand')->get();
         $products = Product::with([
             'qtytype' => function($query){ $query->select(['id', 'name'])->get(); },
             'category' => function($query){ $query->select(['id', 'name'])->get(); },
@@ -27,7 +26,8 @@ class ProductController extends Controller
             return $query->orderBy($request->orderby);
         });
 
-        return new ProductCollection($products->paginate());
+        return response()->json($products->get());
+        //return new ProductCollection($products->paginate());
     }
 
     public function store(Request $request)

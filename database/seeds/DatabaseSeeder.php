@@ -15,5 +15,10 @@ class DatabaseSeeder extends Seeder
         $this->call(QtytypeTableSeeder::class);
         $this->call(UserTableSeeder::class);
         $this->call(ProfileTableSeeder::class);
+        $this->call(BrandTableSeeder::class);
+        $this->call(ColorTableSeeder::class);
+        $this->call(SupplierTableSeeder::class);
+        $this->call(CategoryTableSeeder::class);
+        $this->call(ProductTableSeeder::class);
     }
 }
