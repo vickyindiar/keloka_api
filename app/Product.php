@@ -15,6 +15,10 @@ class Product extends Model
     protected $table = 'products';
     protected $fillable = ['name', 'sprice' , 'bprice', 'qtytype_id', 'stock', 'category_id', 'supplier_id', 'color_id', 'image', 'desc' ];
 
+    public function getTableColumns() {
+        return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+    }
+
     public function qtytype(){
         return $this->belongsTo(Qtytype::class);
     }

@@ -14,24 +14,21 @@ class ProductController extends Controller
 
     public function index(Request $request) // : ProductCollection
     {
-        $products = Product::with([
+        $data = Product::with([
             'qtytype' => function($query){ $query->select(['id', 'name'])->get(); },
             'category' => function($query){ $query->select(['id', 'name'])->get(); },
             'supplier' => function($query){ $query->select(['id', 'name'])->get(); },
-            'brand:id,name']);
+            'brand:id,name', 'color:id,name'])->get();
 
-        $products->when($request->has('where'), function($query) use ($request){
+        $data->when($request->has('where'), function($query) use ($request){
             return $query->where($request->where["1"], $request->where["2"], $request->where["3"]);
         });
-        $products->when($request->has('orderby'), function($query) use ($request){
+        $data->when($request->has('orderby'), function($query) use ($request){
             return $query->orderBy($request->orderby);
         });
-        $products->get();
-        $colums = Schema::getColumnListing($products);
-        $x = 0;
-
-
-        return response()->json(compose('products', 'columns'));
+        $model = new Product();
+        $columns = $model->getTableColumns();
+        return response()->json(compact('data', 'columns'));
         //return new ProductCollection($products->paginate());
     }
 
