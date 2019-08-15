@@ -10,11 +10,14 @@ use App\Http\Resources\CategoryCollection;
 class CategoryController extends Controller
 {
 
-    public function index(): CategoryCollection
+    public function index()//: CategoryCollection
     {
-       $categories = Category::paginate(2);
-       // return response()->json($categories);
-        return new CategoryCollection($categories);
+       //$categories = Category::paginate(2);
+       //return new CategoryCollection($categories);
+       $data = Category::all();
+       $model = new Category();
+       $columns = $model->getTableColumns();
+       return response()->json(compact('data', 'columns'));
     }
 
     public function show($id){

@@ -8,9 +8,13 @@ use App\Http\Resources\BrandCollection;
 
 class BrandController extends Controller
 {
-    public function index(): BrandCollection
+    public function index()//: BrandCollection
     {
-        return new BrandCollection(Brand::paginate());
+        $data = Brand::all();
+        $model = new Brand();
+        $columns = $model->getTableColumns();
+        return response()->json(compact('data', 'columns'));
+        //return new BrandCollection(Brand::paginate());
     }
 
     public function show($id){

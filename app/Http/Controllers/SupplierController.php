@@ -13,10 +13,15 @@ class SupplierController extends Controller
 {
     use ImageHandlerTrait;
 
-    public function index(): SupplierCollection
+    public function index()//: SupplierCollection
     {
-        $suppliers = Supplier::paginate();
-        return new SupplierCollection($suppliers);
+        //$suppliers = Supplier::paginate();
+       // return new SupplierCollection($suppliers);
+
+       $data = Supplier::all();
+       $model = new Supplier();
+       $columns = $model->getTableColumns();
+       return response()->json(compact('data', 'columns'));
     }
 
     public function store(Request $request)

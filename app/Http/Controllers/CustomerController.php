@@ -13,10 +13,13 @@ class CustomerController extends Controller
 {
     use ImageHandlerTrait;
 
-    public function index() : CustomerCollection
+    public function index() //: CustomerCollection
     {
-        $customers = Customer::paginate();
-        return new CustomerCollection($customers);
+        $data = Customer::all();
+       // return new CustomerCollection($customers);
+        $model = new Customer();
+        $columns = $model->getTableColumns();
+        return response()->json(compact('data', 'columns'));
     }
 
     public function store(Request $request)

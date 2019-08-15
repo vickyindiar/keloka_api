@@ -11,5 +11,9 @@ class Supplier extends Model
 
     protected $table     = 'suppliers';
     protected $fillable  = ['name', 'address', 'city', 'province', 'phone', 'phone2', 'store', 'photo', 'desc' ];
+
+    public function getTableColumns() {
+        return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+    }
     //protected $dates     = ['deleted_at'];
 }

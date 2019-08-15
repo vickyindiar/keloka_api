@@ -10,10 +10,14 @@ use Illuminate\Support\Facades\Validator;
 class QtytypeController extends Controller
 {
 
-    public function index(): QtytypeCollection
+    public function index()//: QtytypeCollection
     {
-        $qtyType = Qtytype::peginate();
-        return new QtytypeCollection($qtyType);
+        // $qtyType = Qtytype::peginate();
+        // return new QtytypeCollection($qtyType);
+        $data = Qtytype::all();
+        $model = new Qtytype();
+        $columns = $model->getTableColumns();
+        return response()->json(compact('data', 'columns'));
     }
 
     public function store(Request $request)

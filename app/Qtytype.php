@@ -9,6 +9,10 @@ class Qtytype extends Model
     protected $table    = 'qtytypes';
     protected $fillable = ['code', 'name', 'desc'];
 
+    public function getTableColumns() {
+        return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+    }
+
     public function products(){
         return $this->hasMany(Product::class);
     }
