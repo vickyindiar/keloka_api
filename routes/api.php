@@ -32,6 +32,7 @@ Route::middleware(['jwt.verify'])->group(function() {
         Route::apiResource('reject', 'RejectController');
         Route::apiResource('excahnge', 'ExchangeController');
         Route::apiResource('brand', 'BrandController');
+        Route::apiResource('color', 'ColorController');
 
 });
 
