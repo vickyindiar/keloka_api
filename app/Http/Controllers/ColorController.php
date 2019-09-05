@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Color;
 use Illuminate\Http\Request;
 
 class ColorController extends Controller
 {
     public function index()
     {
+        clock()->startEvent('twitter-api-call', "Loading users latest tweets via Twitter API");
         $data = Color::all();
         $model = new Color();
         $columns = $model->getTableColumns();
+        clock()->endEvent('twitter-api-call');
         return response()->json(compact('data', 'columns'));
+
     }
 
     public function store(Request $request)

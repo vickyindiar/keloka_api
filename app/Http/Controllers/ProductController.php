@@ -6,6 +6,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductCollection;
 use App\Http\Traits\ImageHandlerTrait;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class ProductController extends Controller
@@ -30,6 +31,16 @@ class ProductController extends Controller
         $columns = $model->getTableColumns();
         return response()->json(compact('data', 'columns'));
         //return new ProductCollection($products->paginate());
+    }
+
+    public function productDataSupport(Request $request){
+        $category = DB::table('categories')->get();
+        //$supplier = DB::table('suplliers')->get();
+        $brand = DB::table('brands')->get();
+        $qtytype = DB::table('qtytypes')->get();
+        $color = DB::table('colors')->get();
+        //return response()->json(compact('category', 'supllier', 'brand', 'qtytype', 'color'));
+        return response()->json(compact('category', 'brand', 'qtytype', 'color'));
     }
 
     public function store(Request $request)

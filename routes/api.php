@@ -25,7 +25,10 @@ Route::middleware(['jwt.verify'])->group(function() {
         Route::apiResource('supplier', 'SupplierController');
         Route::apiResource('profile', 'ProfileController');
         Route::apiResource('qtytype', 'QtytypeController');
+
         Route::apiResource('product', 'ProductController');
+        Route::get('productDataSupport', 'ProductController@productDataSupport');
+
         Route::apiResource('order', 'OrderController');
         Route::apiResource('order-detail', 'OrderDetailController');
         Route::apiResource('invoice', 'InvoiceController');
