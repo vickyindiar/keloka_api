@@ -35,12 +35,11 @@ class ProductController extends Controller
 
     public function productDataSupport(Request $request){
         $category = DB::table('categories')->get();
-        //$supplier = DB::table('suplliers')->get();
+        $supplier = DB::table('suppliers')->get();
         $brand = DB::table('brands')->get();
         $qtytype = DB::table('qtytypes')->get();
         $color = DB::table('colors')->get();
-        //return response()->json(compact('category', 'supllier', 'brand', 'qtytype', 'color'));
-        return response()->json(compact('category', 'brand', 'qtytype', 'color'));
+        return response()->json(compact('category', 'supplier', 'brand', 'qtytype', 'color'));
     }
 
     public function store(Request $request)
