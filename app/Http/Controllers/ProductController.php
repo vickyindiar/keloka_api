@@ -46,13 +46,14 @@ class ProductController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'name'        => 'required|string|max:50',
-            'sprice'      => 'required|numeric|min:3',
-            'bprice'      => 'required|numeric|min:3',
+            'brand_id'    => 'required|numeric|min:1',
+            'sprice'      => 'required|numeric|min:1',
+            'bprice'      => 'required|numeric|min:1',
             'qtytype_id'  => 'required|integer',
             'stock'       => 'required|numeric|min:1',
             'category_id' => 'required|integer',
             'supplier_id' => 'required|integer',
-            'color'       => 'nullable|string',
+            'color_id'    => 'nullable|string',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'desc'        => 'nullable|string',
 
@@ -64,13 +65,14 @@ class ProductController extends Controller
         $resultUploaded = $this->uploadOne($request);
         $product = Product::create([
             'name'          => $request->input('name'),
+            'brand'         => $request->input('brand'),
             'sprice'        => $request->input('sprice'),
             'bprice'        => $request->input('bprice'),
-            'qtytype_id'    => $request->input('qtytype_id'),
+            'qtytype_id'    => $request->input('qtytype'),
             'stock'         => $request->input('stock'),
-            'category_id'   => $request->input('category_id'),
-            'supplier_id'   => $request->input('supplier_id'),
-            'color'         => $request->input('color'),
+            'category_id'   => $request->input('category'),
+            'supplier_id'   => $request->input('supplier'),
+            'color_id'      => $request->input('color'),
             'image'         => $resultUploaded,
             'desc'          => $request->input('desc'),
         ]);
