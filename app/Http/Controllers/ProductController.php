@@ -8,6 +8,8 @@ use App\Http\Resources\ProductCollection;
 use App\Http\Traits\ImageHandlerTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Validator;
+
 
 class ProductController extends Controller
 {
@@ -46,17 +48,16 @@ class ProductController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'name'        => 'required|string|max:50',
-            'brand_id'    => 'required|numeric|min:1',
+            'brand'       => 'required|numeric|min:1',
             'sprice'      => 'required|numeric|min:1',
             'bprice'      => 'required|numeric|min:1',
-            'qtytype_id'  => 'required|integer',
+            'qtytype'     => 'required|integer',
             'stock'       => 'required|numeric|min:1',
-            'category_id' => 'required|integer',
-            'supplier_id' => 'required|integer',
-            'color_id'    => 'nullable|string',
+            'category'    => 'required|integer',
+            'supplier'    => 'required|integer',
+            'color'       => 'nullable|string',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'desc'        => 'nullable|string',
-
         ]);
         if($validate->fails()){
             return response()->json($validate->errors()->toJson(), 400);
@@ -65,7 +66,7 @@ class ProductController extends Controller
         $resultUploaded = $this->uploadOne($request);
         $product = Product::create([
             'name'          => $request->input('name'),
-            'brand'         => $request->input('brand'),
+            'brand_id'      => $request->input('brand'),
             'sprice'        => $request->input('sprice'),
             'bprice'        => $request->input('bprice'),
             'qtytype_id'    => $request->input('qtytype'),
@@ -112,8 +113,15 @@ class ProductController extends Controller
             return response()->json(['status'=> false, 'msg' => config('msg.MSG_NODETECT')], 404);
         }
         else{
+            $this->deleteOne($product);
             Product::destroy($id);
             return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS')], 200);
         }
+    }
+
+    public function destroyMany(Request $request){
+        $ids = $request->id;
+        Product::destroy($ids);
+        return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS')], 200);
     }
 }

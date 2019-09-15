@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Storage;
 
 trait ImageHandlerTrait {
 
+
+    public function deleteOne($row): void{
+        if($row) { //replace image
+            $oldImage = array_key_exists('image', $row->attributesToArray()) ? $row->image : ( array_key_exists('photo', $row->attributesToArray()) ?  $row->photo  : null );
+            if(Storage::disk('public')->exists($oldImage)){
+                    Storage::disk('public')->delete($oldImage);
+            }
+        }
+    }
+
     public function uploadOne(Request $request, $row = null){
      $file = $request->has('image') ?$request->file('image') : ( $request->has('photo') ?  $request->file('photo')  : null );
      try {
@@ -20,7 +30,7 @@ trait ImageHandlerTrait {
                 $fullpath    = $path.$name.'.'.$file->getClientOriginalExtension();
                 //$uploaded    = $resizedFile->storeAs($folder, $name.'.'.$file->getClientOriginalExtension(), 'public');
 
-                deleteOne($row);
+                $this->deleteOne($row);
                 $newImage->save(public_path() . $fullpath);
                 return $fullpath;
             }
@@ -32,16 +42,5 @@ trait ImageHandlerTrait {
            //  return response()->json(['msg' => 'failed upload image'], 400);
         }
     }
-
-    public function deleteOne($row): void{
-        if($row) { //replace image
-            $oldImage = array_key_exists('image', $row->attributesToArray()) ? $row->image : ( array_key_exists('photo', $row->attributesToArray()) ?  $row->photo  : null );
-            if(Storage::disk('public')->exists($oldImage)){
-                    Storage::disk('public')->delete($oldImage);
-            }
-        }
-    }
-
-
 
 }
