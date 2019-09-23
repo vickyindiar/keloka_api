@@ -28,7 +28,7 @@ Route::middleware(['jwt.verify'])->group(function() {
 
         Route::apiResource('product', 'ProductController');
         Route::get('productDataSupport', 'ProductController@productDataSupport');
-        Route::delete('product/deletemany', 'ProductController@destroyMany');
+        Route::delete('productDeletemany', 'ProductController@destroyMany');
 
         Route::apiResource('order', 'OrderController');
         Route::apiResource('order-detail', 'OrderDetailController');
