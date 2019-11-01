@@ -62,7 +62,7 @@ class ProductController extends Controller
         if($validate->fails()){
             return response()->json($validate->errors()->toJson(), 400);
         }
-                         //  use ImageHandlerTrait;
+        //  use ImageHandlerTrait;
         $resultUploaded = $this->uploadOne($request);
         $product = Product::create([
             'name'          => $request->input('name'),
@@ -120,7 +120,7 @@ class ProductController extends Controller
     }
 
     public function destroyMany(Request $request){
-        $ids = $request->id;
+        $ids = $request->all();
         Product::destroy($ids);
         return response()->json(['status'=> true, 'msg' => config('msg.MSG_SUCCESS')], 200);
     }
